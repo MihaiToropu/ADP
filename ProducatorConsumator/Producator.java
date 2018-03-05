@@ -15,22 +15,22 @@ public class Producator extends Thread {
     public void run() {
         int value = 0;
         while (true) {
-            synchronized (this) {
-                if (Main.list.size() == 0 || Main.list.size() <= Main.capacity) {
-                    //lock.lock();
-
-                    System.out.println("Producer produced value " + value);
-                    Main.list.add(value);
-                    ++value;
-                } else {
+            synchronized (lock) {
+                if (Main.list.size() == 0) {
+                    lock.lock();
                     try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Main.list.add(value);
+                        System.out.println("Producer produced value " + value);
+                        ++value;
+                    } finally {
+                        lock.unlock();
                     }
                 }
-
-
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

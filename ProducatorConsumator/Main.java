@@ -1,3 +1,4 @@
+
 package ProducatorConsumator;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Main {
 
     public static LinkedList<Integer> list = new LinkedList<>();
-    public static int capacity = 10;
+    public static int capacity = 5;
 
     public static void main(String[] args) {
 

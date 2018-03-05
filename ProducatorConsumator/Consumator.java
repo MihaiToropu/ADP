@@ -4,9 +4,9 @@ package ProducatorConsumator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Consumator extends Thread {
+public class Consumator extends Thread{
 
-    Lock lock;
+    Lock lock = new ReentrantLock();
 
     public Consumator(Lock lock) {
         this.lock = lock;
@@ -16,15 +16,20 @@ public class Consumator extends Thread {
     public void run() {
         int val;
         while (true) {
-            synchronized (this) {
+            synchronized (lock) {
                 if (Main.list.size() > 0) {
-                    System.out.println("Consumer consumed value " + Main.list.removeFirst());
-                } else {
+                    lock.lock();
                     try {
-                        Thread.sleep(1500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        val = Main.list.removeFirst();
+                        System.out.println("Consumer consumed value " + val);
+                    } finally {
+                        lock.unlock();
                     }
+                }
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }
