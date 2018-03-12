@@ -29,9 +29,9 @@ public class Consumer extends Thread {
                 randomNumber = rand.nextInt(4);
                 if (Main.list.size() > randomNumber) {
                     synchronized (lock) {
-                        val = Main.list.remove(randomNumber);
-                        System.out.println("Consumed " + val);
+                        val = Main.list.remove(randomNumber);                   
                     }
+                    System.out.println("Consumed " + val);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
