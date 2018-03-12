@@ -30,8 +30,8 @@ public class Producer extends Thread {
                 if (Main.list.size() < Main.capacity) {
                     synchronized (lock) {
                         Main.list.add(value);
-                        System.out.println("Produced value " + value++);
                     }
+                    System.out.println("Produced value " + value++);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
