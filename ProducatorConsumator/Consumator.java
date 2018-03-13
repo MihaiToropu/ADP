@@ -2,11 +2,10 @@ package ProducatorConsumator;
 
 
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
-public class Consumator extends Thread{
+public class Consumator extends Thread {
 
-    Lock lock = new ReentrantLock();
+    Lock lock;
 
     public Consumator(Lock lock) {
         this.lock = lock;
@@ -14,26 +13,20 @@ public class Consumator extends Thread{
 
     @Override
     public void run() {
-        int val;
+        int val = 404;
+
         while (true) {
             synchronized (lock) {
                 if (Main.list.size() > 0) {
-                    lock.lock();
-                    try {
-                        val = Main.list.removeFirst();
-                        System.out.println("Consumer consumed value " + val);
-                    } finally {
-                        lock.unlock();
-                    }
+                    val = Main.list.removeFirst();
                 }
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            }
+            System.out.println("Consumer consumed value " + val);
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
-
-
 }

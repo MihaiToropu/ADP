@@ -1,11 +1,10 @@
 package ProducatorConsumator;
 
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Producator extends Thread {
 
-    Lock lock = new ReentrantLock();
+    Lock lock;
 
     public Producator(Lock lock) {
         this.lock = lock;
@@ -15,24 +14,16 @@ public class Producator extends Thread {
     public void run() {
         int value = 0;
         while (true) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             synchronized (lock) {
-                if (Main.list.size() == 0) {
-                    lock.lock();
-                    try {
-                        Main.list.add(value);
-                        System.out.println("Producer produced value " + value);
-                        ++value;
-                    } finally {
-                        lock.unlock();
-                    }
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (Main.list.size() < Main.capacity) {
+                    System.out.println("Producer produced value " + Main.list.add(value++));
                 }
             }
         }
     }
-
 }

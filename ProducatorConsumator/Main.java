@@ -1,4 +1,3 @@
-
 package ProducatorConsumator;
 
 import java.util.ArrayList;
