@@ -27,11 +27,13 @@ public class Consumer extends Thread {
             try {
                 semFull.acquire();
                 randomNumber = rand.nextInt(4);
-                if (Main.list.size() > randomNumber) {
-                    synchronized (lock) {
-                        val = Main.list.remove(randomNumber);                   
+                synchronized (lock) {
+                    while (Main.list.size() > randomNumber) {
+                        lock.lock();
+                        val = Main.list.remove(randomNumber);
+                        System.out.println("Consumed " + val);
+                        lock.unlock();
                     }
-                    System.out.println("Consumed " + val);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

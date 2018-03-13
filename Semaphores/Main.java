@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
 
         List<Thread> threadList = new ArrayList<>();
-        Semaphore semFull = new Semaphore(2);
+        Semaphore semFull = new Semaphore(4);
         Semaphore semFree = new Semaphore(2);
         Lock lock = new ReentrantLock();
         Producer p = new Producer(semFree, semFull, lock);

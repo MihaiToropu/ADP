@@ -27,11 +27,13 @@ public class Producer extends Thread {
             }
             try {
                 semFree.acquire();
-                if (Main.list.size() < Main.capacity) {
-                    synchronized (lock) {
+                synchronized (lock) {
+                    if (Main.list.size() < Main.capacity) {
+                        lock.lock();
                         Main.list.add(value);
+                        System.out.println("Produced value " + value++);
+                        lock.unlock();
                     }
-                    System.out.println("Produced value " + value++);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
